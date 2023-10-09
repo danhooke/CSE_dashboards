@@ -33,3 +33,18 @@ def get_all_files():
     all_folders = ['precipitation.zip', 'temperature.zip', 'energy.zip', 'hydrology.zip', 'air_pollution.zip', 'land.zip']
     for folder in all_folders:
         CSE_pooch.fetch(folder, processor = Unzip())
+
+def make_ds(type,
+            ind, 
+            vars = ['abs', 'diff', 'score']
+            ):
+    ''' 
+    Make a dataset of the given indicator.    
+    '''
+    
+    files = dfs.CSE_pooch.fetch(type + '.zip', 
+                processor = Unzip())
+    fp = os.path.dirname(files[1])
+    ds = xr.merge([xr.concat([xr.open_dataarray(f).rename(f'{ind}_{var}')
+                              for f in glob.glob(fp + fr'\{ind}*{var}.nc4')], dim='threshold') for var in vars])
+    return ds
