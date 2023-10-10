@@ -42,7 +42,7 @@ def make_ds(type,
     Make a dataset of the given indicator.    
     '''
     
-    files = dfs.CSE_pooch.fetch(type + '.zip', 
+    files = CSE_pooch.fetch(type + '.zip', 
                 processor = Unzip())
     fp = os.path.dirname(files[1])
     ds = xr.merge([xr.concat([xr.open_dataarray(f).rename(f'{ind}_{var}')
