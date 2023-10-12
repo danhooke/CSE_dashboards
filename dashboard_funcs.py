@@ -48,3 +48,46 @@ def make_ds(type,
     ds = xr.merge([xr.concat([xr.open_dataarray(f).rename(f'{ind}_{var}')
                               for f in glob.glob(fp + fr'\{ind}*{var}.nc4')], dim='threshold') for var in vars])
     return ds
+
+
+def make_dashboard(ds, 
+                   yml_n1,
+                   yml_n2,
+                   save_folder = '', 
+                   width = 385, nbins = 50, 
+                   temps = [1.5, 2.0, 3.0]):
+    '''
+    Function to make a dashboard of a given variable.
+    Inputs are the folder name, the file name and the name to save the dashboard as html.  
+    ''' 
+
+    params = get_info()
+    save_name = save_folder + '/' + ds.attrs['short_name'] + '_dashboard.html'
+
+    short_name = params['indicators'][yml_n1][yml_n2]['short_name']
+    clim_abs = (params['indicators'][yml_n1][yml_n2]['ind_min'],
+                params['indicators'][yml_n1][yml_n2]['ind_max'])
+    clim_diff = (params['indicators'][yml_n1][yml_n2]['diff_min'],
+                params['indicators'][yml_n1][yml_n2]['diff_max'])
+    abs_cmap = params['indicators'][yml_n1][yml_n2]['ind_cmap']
+    diff_cmap = params['indicators'][yml_n1][yml_n2]['diff_cmap']
+
+    rows = []
+    for temp in temps:
+
+        name_abs = short_name + '_abs'
+        name_diff = short_name + '_diff'
+        abs_map = ds[name_abs].sel(threshold = temp).hvplot(width = width, title = name_abs + ' ' + str(temp), clim = clim_abs, cmap = abs_cmap).hist(bin_range = (min(clim_abs), max(clim_abs)), bins = nbins)
+        abs_hist = ds[name_abs].sel(threshold = temp).hvplot(kind='hist', width = width, title = name_abs + ' ' + str(temp), bins = nbins, bin_range = (min(clim_abs), max(clim_abs)), ylim = (-1000, 100), xlim = (min(clim_abs), max(clim_abs))) #0, float(quants_abs.sel(quantile = [0.999]))
+        diff_map = ds[name_diff].sel(threshold = temp).hvplot(width = width, title = name_diff + ' ' + str(temp), clim = clim_diff, cmap = diff_cmap).hist(bin_range = (min(clim_diff), max(clim_diff)), bins = nbins)
+        diff_hist = ds[name_diff].sel(threshold = temp).hvplot(kind='hist', width = width, title = name_diff + ' ' + str(temp), bins = nbins, bin_range = (min(clim_diff), max(clim_diff)), ylim = (-1000, 100), xlim = (min(clim_diff), max(clim_diff)))#(0, float(quants_diff.sel(quantile = [0.999]))
+        row =  abs_map + abs_hist + diff_map + diff_hist
+
+        rows.append(row) 
+
+    layout = hv.Layout(rows).cols(4)
+    hv.save(layout, save_name)
+    return layout
+
+
+
