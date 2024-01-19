@@ -1,0 +1,6 @@
+xarray
+holoviews
+panel
+pooch
+bokeh
+hvplot
