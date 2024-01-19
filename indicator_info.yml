@@ -14,7 +14,7 @@ indicators:
             score_range: [24, 13, 8, 0]
     dri:
         drought_intensity:
-            short_name: 'dri'
+            short_name: 'dri_dis'
             long_name: 'Drought intensity'
             unit: '-'
             ind_min: 0
@@ -41,19 +41,19 @@ indicators:
     heatwave:
         dot:
             short_name: 'hw'
-            long_name: 'Heatwave intensity'
-            unit: 'days/yr'
+            long_name: 'Heatwave events per year'
+            unit: 'events/yr'
             ind_min: 0
-            ind_max: 260
+            ind_max: 10
             ind_cmap: 'YlOrRd'
             diff: relative
             diff_min: 0
-            diff_max: 7200
+            diff_max: 1500
             diff_cmap: 'Reds'
             score_range: [271, 102, 56, 0]
     ia_var:
         ia_var:
-            short_name: 'iavar'
+            short_name: 'iavar_dis'
             long_name: 'Inter-annual variability'
             unit: '-'
             ind_min: -1
@@ -179,7 +179,7 @@ indicators:
             score_range: [16, 11, 8, 0]
     seas:
         seasonality:
-            short_name: 'seas'
+            short_name: 'seas_dis'
             long_name: 'Seasonality'
             unit: '-'
             ind_min: 0
