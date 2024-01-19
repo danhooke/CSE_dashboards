@@ -4,3 +4,6 @@ panel
 pooch
 bokeh
 hvplot
+dask
+netCDF4
+bottleneck
