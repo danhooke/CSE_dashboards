@@ -1,17 +1,35 @@
-import dashboard_funcs as dfs
-import app_style as style
 import xarray as xr
 import os
 import glob
-
-# import hvplot.xarray
+import yaml
+import pooch
 import holoviews as hv
 import panel as pn
 import panel.widgets as pnw
 from pooch import Unzip
 from bokeh.themes.theme import Theme
 
-pn.extension(raw_css=[style.css])
+import hvplot.xarray
+
+css = """
+* {
+  font-family: "Roboto", sans-serif;
+  background: #f0f3f6;
+  }
+.bk-root .bk-btn-default {
+  background: #f0f3f6;
+  border-color: #f0f3f6;
+  color: #f0f3f6;
+  }
+.bk-panel-models-layout-Column {
+  background: #f0f3f6;
+  }
+.bk-layer.bk-events{
+  background: #f0f3f6;
+  }
+
+"""
+pn.extension(raw_css=[css])
 # pn.config.sizing_mode = "stretch_width"
 
 theme = Theme(
@@ -23,6 +41,18 @@ theme = Theme(
 )
 hv.renderer("bokeh").theme = theme
 
+CSE_pooch_v03 = pooch.create(
+    base_url="doi:10.5281/zenodo.10212339/",
+    path=pooch.os_cache("CSE"),
+    registry={
+        "land.zip": "5c6fa81a541b6be59278f5ac5de0ddeff5ca48ffee1963293521168010b51cf8",
+        "temperature.zip": "c5e20f83587f893187f934251e4627e42b3eef6208ad7a062800990c89b370e9",
+        "precipitation.zip": "6c27b53d42a7b1df814b346b36e2d7b63920e3b2c649c8ce45e2b4ca84e3013f",
+        "hydrology.zip": "7cd9ae348003d03ca63b0f08888e00c45c1d3b71250b2ba8fc32be06d1e88f7f",
+        "energy.zip": "a98274119423af7425c5de82e809fea5dcd92250ffc9aaa641670247adfb04be",
+        "air_pollution.zip": "ba208c2b057250f3741bbb3b89d9ff257e66230383542622d99107ade02a015d",
+    },
+)
 temp_inds = [
     "hw_95_10",
     "hw_95_3",
@@ -115,7 +145,7 @@ def make_ds(
         folder = "energy.zip"
     elif ind in hydro_inds:
         folder = "hydrology.zip"
-    files = dfs.CSE_pooch_v03.fetch(folder, processor=Unzip())
+    files = CSE_pooch_v03.fetch(folder, processor=Unzip())
     fp = os.path.dirname(files[1])
     ds = xr.merge(
         [
@@ -133,7 +163,15 @@ def make_ds(
     return ds
 
 
-info = dfs.get_info()
+def get_info():
+    """
+    Read information from the yaml file into a dictionary.
+    """
+    with open("indicator_info.yml", "r") as f:
+        return yaml.full_load(f)
+
+
+info = get_info()
 
 
 def get_plot_info(ind, info=info):
