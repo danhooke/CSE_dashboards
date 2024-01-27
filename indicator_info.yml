@@ -12,6 +12,7 @@ indicators:
             diff_max: 20
             diff_cmap: 'RdBu_r'
             score_range: [24, 13, 8, 0]
+            description: 'Maximum number of consecutive days with PR < 1 mm.'
     dri:
         drought_intensity:
             short_name: 'dri_dis'
@@ -25,6 +26,7 @@ indicators:
             diff_max: 20
             diff_cmap: 'RdBu_r'
             score_range: [27, 12, 8, 0]
+            description: 'Change in drought intensity indicates locations where the intensity of droughts is increasing – as a function of both duration and the water deficit.'
     dri_qtot:
         drought_intensity:
             short_name: 'dri_qtot'
@@ -38,6 +40,7 @@ indicators:
             diff_max: 20
             diff_cmap: 'RdBu_r'
             score_range: [27, 10, 6, 0]
+            description: 'Change in drought intensity indicates locations where the intensity of droughts is increasing – as a function of both duration and the water deficit.'
     heatwave:
         dot:
             short_name: 'hw'
@@ -51,6 +54,7 @@ indicators:
             diff_max: 1500
             diff_cmap: 'Reds'
             score_range: [271, 102, 56, 0]
+            description: 'Number of heatwave events per year, with a minimum number of given consecutive days with daily mean wet bulb temperature above the historical given percentile.'
     ia_var:
         ia_var:
             short_name: 'iavar_dis'
@@ -64,6 +68,7 @@ indicators:
             diff_max: 50
             diff_cmap: 'RdBu_r'
             score_range: [75, 28, 17, 0]
+            description: 'Mean inter-annual variability index change indicates locations where the differences between wet and dry years are expected to increase i.e. annual water availability is becoming more unpredictable.'
     ia_var_qtot:
         ia_var:
             short_name: 'iavar_qtot'
@@ -77,6 +82,7 @@ indicators:
             diff_max: 50
             diff_cmap: 'RdBu_r'
             score_range: [77, 29, 18, 0]
+            description: 'Mean inter-annual variability index change indicates locations where the differences between wet and dry years are expected to increase i.e. annual water availability is becoming more unpredictable.'
     lc:
         LC_area_share:
             short_name: 'lc'
@@ -90,6 +96,7 @@ indicators:
             diff_max: 50
             diff_cmap: 'RdBu_r'
             score_range: [-33, -6, -2, 0]
+            description: 'Land cover data is the difference in area share of cropland, grassland, and forest between the baseline period (1961-1990) and the future period (2030 or 2050).'
     pm2p5_2030:
         pm2p5:
             short_name: 'pm2p5'
@@ -103,6 +110,7 @@ indicators:
             diff_max: 50
             diff_cmap: 'BrBG'
             score_range: [25, 10, 5, 0]
+            description: 'Ambient PM2.5 concentrations is the difference in annual mean of PM2.5 between the baseline period (1961-1990) and the future period (2030 or 2050).'
     pm2p5_2050:
         pm2p5:
             short_name: 'pm2p5'
@@ -116,6 +124,7 @@ indicators:
             diff_max: 50
             diff_cmap: 'BrBG'
             score_range: [25, 10, 5, 0]
+            description: 'Ambient PM2.5 concentrations is the difference in annual mean of PM2.5 between the baseline period (1961-1990) and the future period (2030 or 2050).'
     precip:
         r10:
             short_name: 'pr_r10'
@@ -129,6 +138,7 @@ indicators:
             diff_max: 90
             diff_cmap: 'BrBG'
             score_range: [97, 46, 26, 0]
+            description: 'Number of heavy precipitation days: annual count of days when PR >= 10mm/day.'
         r20:
             short_name: 'pr_r20'
             long_name: 'Very heavy precipitation days'
@@ -141,6 +151,7 @@ indicators:
             diff_max: 180
             diff_cmap: 'BrBG'
             score_range: [189, 71, 38, 0]
+            description: 'Number of very heavy precipitation days: annual count of days when PR >= 20mm/day.'
         r95p:
             short_name: 'pr_r95p'
             long_name: 'Wet days'
@@ -153,6 +164,7 @@ indicators:
             diff_max: 60
             diff_cmap: 'BrBG'
             score_range: [66, 39, 26, 0]
+            description: 'Wet days: annual total precipitation when PR >= 95th percentile.'
         r99p:
             short_name: 'pr_r99p'
             long_name: 'Very wet days'
@@ -165,6 +177,7 @@ indicators:
             diff_max: 100
             diff_cmap: 'BrBG'
             score_range: [106, 63, 43, 0]
+            description: 'Very wet days: annual total precipitation when PR >= 99th percentile.'
         sdii:
             short_name: 'sdii'
             long_name: 'Precipitation intensity index'
@@ -177,6 +190,7 @@ indicators:
             diff_max: 20
             diff_cmap: 'BrBG'
             score_range: [16, 11, 8, 0]
+            description: 'Simple daily intensity index: annual total precipitation / number of wet days.'
     seas:
         seasonality:
             short_name: 'seas_dis'
@@ -190,6 +204,7 @@ indicators:
             diff_max: 40
             diff_cmap: 'RdBu_r'
             score_range: [57, 23, 13, 0]
+            description: 'Mean seasonality index change indicates locations where the differences between wet and dry seasons are expected to increase i.e. seasonal water availability is becoming more unpredictable.'
     seas_qtot:
         seasonality:
             short_name: 'seas_qtot'
@@ -203,6 +218,7 @@ indicators:
             diff_max: 40
             diff_cmap: 'RdBu_r'
             score_range: [60, 22, 13, 0]
+            description: 'Mean seasonality index change indicates locations where the differences between wet and dry seasons are expected to increase i.e. seasonal water availability is becoming more unpredictable.'
     sdd:
         sdd_c:
             short_name: 'sdd_c'
@@ -216,6 +232,7 @@ indicators:
             diff_max: 4990
             diff_cmap: 'RdBu_r'
             score_range: [1071, 643, 228, 0]
+            description: 'Cooling degree days per year above 26C, using daily mean surface air temperature (tas).'
     sdd_24p0:
         sdd_c:
             short_name: 'sdd_c_24p0'
@@ -229,6 +246,7 @@ indicators:
             diff_max: 4990
             diff_cmap: 'RdBu_r'
             score_range: [1071, 643, 228, 0]
+            description: 'Cooling degree days per year above 24C, using daily mean surface air temperature (tas).'
     sdd_20p0:
         sdd_c:
             short_name: 'sdd_c_20p0'
@@ -242,6 +260,7 @@ indicators:
             diff_max: 4990
             diff_cmap: 'RdBu_r'
             score_range: [1071, 643, 228, 0]
+            description: 'Cooling degree days per year above 20C, using daily mean surface air temperature (tas).'
     sdd_18p3:
         sdd_c:
             short_name: 'sdd_c_18p3'
@@ -255,6 +274,7 @@ indicators:
             diff_max: 4990
             diff_cmap: 'RdBu_r'
             score_range: [1071, 643, 228, 0]
+            description: 'Cooling degree days per year above 18.3C, using daily mean surface air temperature (tas).'
     tr20:
         max_dur:
             short_name: 'tr20'
@@ -268,6 +288,7 @@ indicators:
             diff_max: 140
             diff_cmap: 'Reds'
             score_range: [7676, 1638, 561, 0]
+            description: 'Maximum number of consecutive days per year with a minimum surface air temperature above 20 °C.'
     # yields_cereals:
     #     SimU_yields:
     #         short_name: 'yld_crls'
@@ -346,3 +367,4 @@ indicators:
             diff_max: 1910
             diff_cmap: 'PuRd'
             score_range: [0.4, 0.3, 0.2, 0.1]
+            description: 'Water stress index compares water demands to available water supply. High water stress means that a high proportion of the available water is being used.'
