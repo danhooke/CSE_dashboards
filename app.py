@@ -229,6 +229,7 @@ input_ticker = pn.widgets.Select(
     options=list(names.values()),
 )
 
+atd = "<span style='font-weight: 600'> About the data:</span> gridded global climate and impact model data are based on CMIP6 and CMIP5 projections, using a subset of models from the ISIMIP project that have been consistently downscaled and bias-corrected.  The data includes various indicators (~30) relating to extremes of precipitation and temperature (e.g. from Expert Team on Climate Change Detection and Indices), hydrological variables including runoff and discharge, heat stress (from wet bulb temperature) events (multiple statistics and durations), and cooling degree days, as well as further indicators relating to air pollution (PM2.5 from the GAINs model), and crop yields and natural habitat land-use change (biodiversity pressure) from the GLOBIOM model."
 
 simple_map_test = pn.bind(make_score_map_test, ind=input_ticker, t=slider)
 pn.Column(
@@ -240,7 +241,8 @@ pn.Column(
     pn.Row(
         pn.panel(
             '<span style="color:black; font-weight:600; font-size:24px">Data: </span><span style="color:black; font-weight:400; font-size:24px">Werning et al. (2023) </span><a href="https://zenodo.org/doi/10.5281/zenodo.7971429" target="_blank"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.7971429.svg" alt="DOI"/></a>'
-        )
+        ),
+        pn.panel(atd),
     ),
     input_ticker,
     slider,
