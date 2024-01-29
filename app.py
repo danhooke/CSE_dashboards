@@ -129,7 +129,8 @@ def make_ds(
             for var in vars
         ]
     )
-    ds = ds.rename({"diff": "difference"})
+    ds = ds.rename({"diff": "difference", "lon": "Longitude", "lat": "Latitude"})
+    # ds = ds.r
     return ds
 
 
@@ -172,8 +173,8 @@ def make_score_map_test(ind, t):
         ds["score"]
         .sel(threshold=t)
         .hvplot(
-            x="lon",
-            y="lat",
+            x="Longitude",
+            y="Latitude",
             xlabel="",
             ylabel="",
             width=600,
@@ -190,8 +191,8 @@ def make_score_map_test(ind, t):
         ds["abs"]
         .sel(threshold=t)
         .hvplot(
-            x="lon",
-            y="lat",
+            x="Longitude",
+            y="Latitude",
             xlabel="",
             ylabel="",
             width=600,
@@ -211,8 +212,8 @@ def make_score_map_test(ind, t):
             # stats="mean"
         )
         .hvplot(
-            x="lon",
-            y="lat",
+            x="Longitude",
+            y="Latitude",
             xlabel="",
             ylabel="",
             cmap=ind_info["diff_cmap"],
