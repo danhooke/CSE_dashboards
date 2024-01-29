@@ -1,16 +1,16 @@
 css = """
 * {
   font-family: "Roboto", sans-serif;
-  background: #f0f3f6;
-  }
-.bk-root .bk-btn-default {
-  background: #f0f3f6;
-  border-color: #f0f3f6;
-  color: #f0f3f6;
-  }
-.bk-panel-models-layout-Column {
-  background: #f0f3f6;
-  }
+  # background: #f0f3f6;
+#   }
+# .bk-root .bk-btn-default {
+#   background: #f0f3f6;
+#   border-color: #f0f3f6;
+#   color: #f0f3f6;
+#   }
+# .bk-panel-models-layout-Column {
+#   background: #f0f3f6;
+#   }
 .bk-layer.bk-events{
   background: #f0f3f6;
   }

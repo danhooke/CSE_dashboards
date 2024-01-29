@@ -177,6 +177,7 @@ def make_score_map_test(ind, t):
             y="Latitude",
             xlabel="",
             ylabel="",
+            # xticks=[-180],
             width=600,
             cmap="magma_r",
             clim=(0, 6),
@@ -227,23 +228,50 @@ def make_score_map_test(ind, t):
         .hist()
     )
     layout = pn.Column(
-        # pn.Row(
-        #     ind_desc,
-        # ),
-        pn.Row(abs_map, diff_map),
+        #
+        pn.Row(
+            abs_map,
+            diff_map,
+            # styles={"background": "#f0f3f6"},
+            sizing_mode="stretch_both",
+        ),
         pn.Row(
             score_map,
+            # styles={"background": "#f0f3f6"},
+            sizing_mode="stretch_both",
         ),
+        styles={
+            "background": "#f0f3f6",
+            "padding": "0px",
+        },
     )
     return layout
 
 
+slider_style = {
+    "background": "#f0f3f6",
+    "padding": "10px",
+}
+
+
 slider = pnw.DiscreteSlider(
-    name="GMT change", options=[1.2, 1.5, 2.0, 2.5, 3.0, 3.5], value=1.2
+    name="GMT change",
+    options=[1.2, 1.5, 2.0, 2.5, 3.0, 3.5],
+    value=1.2,
+    styles=slider_style,
+    tooltips=True,
+    disabled=False,
+    # bar_color="#6C22A6",
 )
+
+select_style = {
+    "background": "#f0f3f6",
+    "padding": "20px",
+}
 input_ticker = pn.widgets.Select(
     name="Indicator",
     options=list(names.values()),
+    styles=select_style,
 )
 
 title = (
@@ -255,7 +283,11 @@ data_short = '<span style="color:black; font-weight:600; font-size:16px">Data: <
 simple_map_test = pn.bind(make_score_map_test, ind=input_ticker, t=slider)
 ind_desc_sidebar = pn.bind(get_ind_text, ind=input_ticker)
 
-template = pn.template.BootstrapTemplate(title="Climate Impacts")
+template = pn.template.BootstrapTemplate(
+    title="Climate Impact Maps",
+    header_background="#0B60B0",
+    header_color="#000000",
+)
 template.sidebar.append(data_short)
 template.sidebar.append(input_ticker)
 template.sidebar.append(slider)
