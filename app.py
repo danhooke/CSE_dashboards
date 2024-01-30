@@ -17,7 +17,18 @@ pn.extension(raw_css=[style.css])
 theme = Theme(
     json={
         "attrs": {
-            "figure": {"border_fill_color": "#f0f3f6"},
+            "figure": {
+                "border_fill_color": "#f0f3f6",
+                "outline_line_alpha": 0.0,
+                # "background_fill_color": "#f0f3f6",
+            },
+            "Title": {
+                "text_color": "black",
+                # "background_fill_color": "#0B60B0",
+                "text_font": "Roboto",
+                "text_font_size": "16px",
+                "text_font_style": "normal",
+            },
         }
     }
 )
