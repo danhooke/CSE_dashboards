@@ -294,10 +294,12 @@ data_short = '<span style="color:black; font-weight:600; font-size:16px">Data: <
 simple_map_test = pn.bind(make_score_map_test, ind=input_ticker, t=slider)
 ind_desc_sidebar = pn.bind(get_ind_text, ind=input_ticker)
 
-template = pn.template.BootstrapTemplate(
+template = pn.template.FastListTemplate(
     title="Climate Impact Maps",
     header_background="#0B60B0",
     header_color="#000000",
+    neutral_color="#0B60B0",
+    background_color="#f0f3f6",
 )
 template.sidebar.append(data_short)
 template.sidebar.append(input_ticker)
