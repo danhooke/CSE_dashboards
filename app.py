@@ -165,6 +165,12 @@ def make_ds_local(l_name):
     return ds
 
 
+def make_ds_combined(l_name):
+    ind = match_name(l_name)
+    ds = xr.open_dataset(f"data/{ind}_combined.nc")
+    return ds
+
+
 info = dfs.get_info()
 
 
@@ -202,7 +208,7 @@ def get_ind_text(ind):
 
 
 def make_score_map_test(ind, t):
-    ds = make_ds_local(ind)
+    ds = make_ds_combined(ind)
     ind_info = get_plot_info(ind)
     score_map = (
         ds["score"]
