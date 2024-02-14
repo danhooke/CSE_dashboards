@@ -71,35 +71,35 @@ precip_inds = ["cdd", "pr_r10", "pr_r20", "pr_r95p", "pr_r99p", "sdii"]
 
 names = dict(
     hw_97_3="Heat wave events (97th percentile, 3 days)",
-    # dri_dis="Drought severity (discharge)",
-    # dri_qtot="Drought severity (runoff)",
-    # iavar_dis="Interannual variability (discharge)",
-    # iavar_qtot="Interannual variability (runoff)",
-    # seas_dis="Seasonality (discharge)",
-    # seas_qtot="Seasonality (runoff)",
-    # wsi="Water stress index",
-    # cdd="Consecutive dry days",
-    # pr_r10="Heavy precipitation days",
-    # pr_r20="Very heavy precipitation days",
-    # pr_r95p="Wet days",
-    # pr_r99p="Very wet days",
-    # sdii="Precipitation intensity index",
-    # hw_95_10="Heat wave events (95th percentile, 10 days)",
-    # hw_95_3="Heat wave events (95th percentile, 3 days)",
-    # hw_95_5="Heat wave events (95th percentile, 5 days)",
-    # hw_95_7="Heat wave events (95th percentile, 7 days)",
-    # hw_97_10="Heat wave events (97th percentile, 10 days)",
-    # hw_97_5="Heat wave events (97th percentile, 5 days)",
-    # hw_97_7="Heat wave events (97th percentile, 7 days)",
-    # hw_99_10="Heat wave events (99th percentile, 10 days)",
-    # hw_99_3="Heat wave events (99th percentile, 3 days)",
-    # hw_99_5="Heat wave events (99th percentile, 5 days)",
-    # hw_99_7="Heat wave events (99th percentile, 7 days)",
-    # tr20="Tropical nights",
-    # sdd_c_24p0="Cooling degree days (24°C)",
-    # # sdd_c="Cooling degree days (26°C)",
-    # sdd_c_18p3="Cooling degree days (18.3°C)",
-    # sdd_c_20p0="Cooling degree days (20°C)",
+    dri_dis="Drought severity (discharge)",
+    dri_qtot="Drought severity (runoff)",
+    iavar_dis="Interannual variability (discharge)",
+    iavar_qtot="Interannual variability (runoff)",
+    seas_dis="Seasonality (discharge)",
+    seas_qtot="Seasonality (runoff)",
+    wsi="Water stress index",
+    cdd="Consecutive dry days",
+    pr_r10="Heavy precipitation days",
+    pr_r20="Very heavy precipitation days",
+    pr_r95p="Wet days",
+    pr_r99p="Very wet days",
+    sdii="Precipitation intensity index",
+    hw_95_10="Heat wave events (95th percentile, 10 days)",
+    hw_95_3="Heat wave events (95th percentile, 3 days)",
+    hw_95_5="Heat wave events (95th percentile, 5 days)",
+    hw_95_7="Heat wave events (95th percentile, 7 days)",
+    hw_97_10="Heat wave events (97th percentile, 10 days)",
+    hw_97_5="Heat wave events (97th percentile, 5 days)",
+    hw_97_7="Heat wave events (97th percentile, 7 days)",
+    hw_99_10="Heat wave events (99th percentile, 10 days)",
+    hw_99_3="Heat wave events (99th percentile, 3 days)",
+    hw_99_5="Heat wave events (99th percentile, 5 days)",
+    hw_99_7="Heat wave events (99th percentile, 7 days)",
+    tr20="Tropical nights",
+    sdd_c_24p0="Cooling degree days (24°C)",
+    # sdd_c="Cooling degree days (26°C)",
+    sdd_c_18p3="Cooling degree days (18.3°C)",
+    sdd_c_20p0="Cooling degree days (20°C)",
 )
 
 
@@ -167,7 +167,7 @@ def make_ds_local(l_name):
 
 def make_ds_combined(l_name):
     ind = match_name(l_name)
-    ds = xr.open_dataset(f"data/{ind}_combined.nc")
+    ds = xr.open_dataset(f"data/{ind}_combined.nc4")
     return ds
 
 
