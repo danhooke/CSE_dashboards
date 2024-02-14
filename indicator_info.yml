@@ -26,7 +26,7 @@ indicators:
             diff_max: 20
             diff_cmap: 'RdBu_r'
             score_range: [27, 12, 8, 0]
-            description: 'Change in drought intensity indicates locations where the intensity of droughts is increasing – as a function of both duration and the water deficit.'
+            description: 'Change in drought intensity indicates locations where the intensity of droughts is increasing - as a function of both duration and the water deficit.'
     dri_qtot:
         drought_intensity:
             short_name: 'dri_qtot'

@@ -17,7 +17,18 @@ pn.extension(raw_css=[style.css])
 theme = Theme(
     json={
         "attrs": {
-            "figure": {"border_fill_color": "#f0f3f6"},
+            "figure": {
+                "border_fill_color": "#f0f3f6",
+                "outline_line_alpha": 0.0,
+                # "background_fill_color": "#f0f3f6",
+            },
+            "Title": {
+                "text_color": "black",
+                # "background_fill_color": "#0B60B0",
+                "text_font": "Roboto",
+                "text_font_size": "16px",
+                "text_font_style": "normal",
+            },
         }
     }
 )
@@ -129,7 +140,8 @@ def make_ds(
             for var in vars
         ]
     )
-    ds = ds.rename({"diff": "difference"})
+    ds = ds.rename({"diff": "difference", "lon": "Longitude", "lat": "Latitude"})
+    # ds = ds.r
     return ds
 
 
@@ -152,25 +164,35 @@ def get_plot_info(ind, info=info):
     return ind_info
 
 
+def get_ind_text(ind):
+    ind_info = get_plot_info(ind)
+    ind_desc = (
+        "<span style='font-weight: 600; font-size: 16px'> About the indicator: </span>"
+        # + "\n"
+        + "<span style='font-weight: 400; font-size: 16px'>"
+        + ind_info["description"]
+        + "</span>"
+        + "\n"
+        + "<span style='font-weight: 600; font-size: 16px'>Unit: </span>"
+        + "<span style='font-weight: 400; font-size: 16px'>"
+        + ind_info["unit"]
+        + "</span>"
+    )
+    return ind_desc
+
+
 def make_score_map_test(ind, t):
     ds = make_ds(ind)
     ind_info = get_plot_info(ind)
-    ind_desc = (
-        "About the indicator:"
-        + "\n"
-        + ind_info["description"]
-        + "\n"
-        + "Unit: "
-        + ind_info["unit"]
-    )
     score_map = (
         ds["score"]
         .sel(threshold=t)
         .hvplot(
-            x="lon",
-            y="lat",
+            x="Longitude",
+            y="Latitude",
             xlabel="",
             ylabel="",
+            # xticks=[-180],
             width=600,
             cmap="magma_r",
             clim=(0, 6),
@@ -185,8 +207,8 @@ def make_score_map_test(ind, t):
         ds["abs"]
         .sel(threshold=t)
         .hvplot(
-            x="lon",
-            y="lat",
+            x="Longitude",
+            y="Latitude",
             xlabel="",
             ylabel="",
             width=600,
@@ -206,8 +228,8 @@ def make_score_map_test(ind, t):
             # stats="mean"
         )
         .hvplot(
-            x="lon",
-            y="lat",
+            x="Longitude",
+            y="Latitude",
             xlabel="",
             ylabel="",
             cmap=ind_info["diff_cmap"],
@@ -221,45 +243,96 @@ def make_score_map_test(ind, t):
         .hist()
     )
     layout = pn.Column(
+        #
         pn.Row(
-            ind_desc,
+            abs_map,
+            diff_map,
+            # styles={"background": "#f0f3f6"},
+            sizing_mode="stretch_both",
         ),
-        pn.Row(abs_map, diff_map),
         pn.Row(
             score_map,
+            # styles={"background": "#f0f3f6"},
+            sizing_mode="stretch_both",
         ),
+        styles={
+            "background": "#f0f3f6",
+            "padding": "0px",
+        },
     )
     return layout
 
 
+slider_style = {
+    "background": "#f0f3f6",
+    "padding": "10px",
+    "font-size": "16px",
+    "font-weight": "400",
+}
+
+
 slider = pnw.DiscreteSlider(
-    name="GMT change", options=[1.2, 1.5, 2.0, 2.5, 3.0, 3.5], value=1.2
+    name="GMT change",
+    options=[1.2, 1.5, 2.0, 2.5, 3.0, 3.5],
+    value=1.2,
+    styles=slider_style,
+    tooltips=True,
+    disabled=False,
+    # styles=slider_style,
+    # bar_color="#6C22A6",
 )
+
+select_style = {
+    "background": "#f0f3f6",
+    "padding": "20px",
+    "font-size": "16px",
+    "font-weight": "400",
+    "color": "black",
+}
 input_ticker = pn.widgets.Select(
     name="Indicator",
     options=list(names.values()),
+    styles=select_style,
 )
 
 title = (
-    '<span style="color:black; font-weight:800; font-size:32px">Climate Impacts</span>'
+    '<span style="color:white; font-weight:800; font-size:32px">Climate Impacts</span>'
 )
-atd = "<span style='font-weight: 600'> About the data:</span> gridded global climate and impact model data are based on CMIP6 and CMIP5 projections, using a subset of models from the ISIMIP project that have been consistently downscaled and bias-corrected.  The data includes various indicators (~30) relating to extremes of precipitation and temperature (e.g. from Expert Team on Climate Change Detection and Indices), hydrological variables including runoff and discharge, heat stress (from wet bulb temperature) events (multiple statistics and durations), and cooling degree days, as well as further indicators relating to air pollution (PM2.5 from the GAINs model), and crop yields and natural habitat land-use change (biodiversity pressure) from the GLOBIOM model."
-data_short = '<span style="color:black; font-weight:600; font-size:24px">Data: </span><span style="color:black; font-weight:400; font-size:24px">Werning et al. (2023) </span><a href="https://zenodo.org/doi/10.5281/zenodo.7971429" target="_blank"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.7971429.svg" alt="DOI"/></a>'
+atd = "<span style='font-weight: 600; font-size:16px'> About the data:</span> <span style='font-weight:100; font-size:16px'>gridded global climate and impact model data are based on CMIP6 and CMIP5 projections, using a subset of models from the ISIMIP project that have been consistently downscaled and bias-corrected.  The data includes various indicators (~30) relating to extremes of precipitation and temperature (e.g. from Expert Team on Climate Change Detection and Indices), hydrological variables including runoff and discharge, heat stress (from wet bulb temperature) events (multiple statistics and durations), and cooling degree days.</span>"
+data_short = '<span style="color:black; font-weight:400; font-size:16px">Data: </span><span style="color:black; font-weight:300; font-size:16px">Werning et al. (2023) </span><a href="https://zenodo.org/doi/10.5281/zenodo.7971429" target="_blank"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.7971429.svg" alt="DOI"/></a>'
 # ind_unit = ind_info["unit"]
-
 simple_map_test = pn.bind(make_score_map_test, ind=input_ticker, t=slider)
-pn.Column(
-    pn.Row(
-        pn.panel(
-            title,
-        )
-    ),
-    pn.Row(
-        pn.panel(data_short),
-        pn.panel(atd),
-        sizing_mode="stretch_width",
-    ),
-    input_ticker,
-    slider,
-    simple_map_test,
-).servable()
+ind_desc_sidebar = pn.bind(get_ind_text, ind=input_ticker)
+
+template = pn.template.FastListTemplate(
+    title="Climate Impact Maps",
+    header_background="#0B60B0",
+    header_color="white",
+    # neutral_color="#0B60B0",
+    background_color="#f0f3f6",
+)
+template.sidebar.append(data_short)
+template.sidebar.append(input_ticker)
+template.sidebar.append(slider)
+template.sidebar.append(ind_desc_sidebar)
+template.sidebar.append(atd)
+
+template.main.append(
+    pn.Column(
+        # pn.Row(
+        #     pn.panel(
+        #         # title,
+        #     )
+        # ),
+        # pn.Row(
+        #     pn.panel(data_short),
+        #     pn.panel(atd),
+        #     sizing_mode="stretch_width",
+        # ),
+        # input_ticker,
+        # slider,
+        simple_map_test,
+    )
+)
+
+template.servable()
