@@ -330,6 +330,15 @@ data_short = '<span style="color:black; font-weight:400; font-size:16px">Data: <
 simple_map_test = pn.bind(make_score_map_test, ind=input_ticker, t=slider)
 ind_desc_sidebar = pn.bind(get_ind_text, ind=input_ticker)
 
+tabs = pn.Tabs(
+    (
+        "Single Indicator Overview",
+        pn.Column(pn.Row(input_ticker, slider, ind_desc_sidebar), simple_map_test),
+    ),
+    ("Indicator In Depth", pn.panel("In depth visualisations of the indicator")),
+    ("Scenario", pn.panel("Scenario analysis")),
+)
+
 template = pn.template.FastListTemplate(
     title="Climate Impact Maps",
     header_background="#0B60B0",
@@ -338,9 +347,10 @@ template = pn.template.FastListTemplate(
     background_color="#f0f3f6",
 )
 template.sidebar.append(data_short)
-template.sidebar.append(input_ticker)
-template.sidebar.append(slider)
-template.sidebar.append(ind_desc_sidebar)
+# template.sidebar.append(tabs)
+# template.sidebar.append(input_ticker)
+# template.sidebar.append(slider)
+# template.sidebar.append(ind_desc_sidebar)
 template.sidebar.append(atd)
 
 template.main.append(
@@ -357,7 +367,8 @@ template.main.append(
         # ),
         # input_ticker,
         # slider,
-        simple_map_test,
+        tabs,
+        # simple_map_test,
     )
 )
 
