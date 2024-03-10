@@ -291,7 +291,7 @@ def make_score_map_test(ind, t):
 
 
 temp_box = pnw.MultiChoice(
-    name="Temperatures", value=[2.0], options=[1.2, 1.5, 2.0, 2.5, 3, 3.5]
+    name="Temperatures", value=[1.2], options=[1.2, 1.5, 2.0, 2.5, 3.0, 3.5]
 )
 
 
@@ -360,6 +360,7 @@ def make_indepth_dboard(ind, temps):
         )
         temp_row = pn.Column(
             pn.layout.Divider(),
+            pn.pane.Markdown(f"### Temperature: {str(temp)}°C"),
             pn.Row(
                 abs_map,
                 diff_map,
