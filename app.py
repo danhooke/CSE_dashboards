@@ -198,12 +198,13 @@ def get_ind_text(ind):
         + "<span style='font-weight: 400; font-size: 16px'>"
         + ind_info["description"]
         + "</span>"
-        + "\n"
+        + "<br>"
         + "<span style='font-weight: 600; font-size: 16px'>Unit: </span>"
         + "<span style='font-weight: 400; font-size: 16px'>"
         + ind_info["unit"]
         + "</span>"
     )
+    ind_desc = pn.pane.HTML(ind_desc, sizing_mode="stretch_width")
     return ind_desc
 
 
