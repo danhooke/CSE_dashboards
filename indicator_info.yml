@@ -288,7 +288,7 @@ indicators:
             diff_max: 140
             diff_cmap: 'Reds'
             score_range: [7676, 1638, 561, 0]
-            description: 'Maximum number of consecutive days per year with a minimum surface air temperature above 20 °C.'
+            description: 'Maximum number of consecutive days per year with a minimum surface air temperature above 20C.'
     # yields_cereals:
     #     SimU_yields:
     #         short_name: 'yld_crls'
@@ -365,6 +365,6 @@ indicators:
             diff: relative
             diff_min: -1910
             diff_max: 1910
-            diff_cmap: 'PuRd'
+            diff_cmap: 'coolwarm'
             score_range: [0.4, 0.3, 0.2, 0.1]
             description: 'Water stress index compares water demands to available water supply. High water stress means that a high proportion of the available water is being used.'
