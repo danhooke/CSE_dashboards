@@ -290,11 +290,16 @@ def make_score_map_test(ind, t):
     return layout
 
 
-def make_indepth_dboard(ind):
+temp_box = pnw.MultiChoice(
+    name="Temperatures", value=[2.0], options=[1.2, 1.5, 2.0, 2.5, 3, 3.5]
+)
+
+
+def make_indepth_dboard(ind, temps):
     ds = make_ds_combined(ind)
     ind_info = get_plot_info(ind)
     indepth_col = pn.Column()
-    for temp in ds.threshold:
+    for temp in temps:
         score_map = (
             ds["score"]
             .sel(threshold=temp)
@@ -411,7 +416,7 @@ data_short = '<span style="color:black; font-weight:400; font-size:16px">Data: <
 # ind_unit = ind_info["unit"]
 simple_map_test = pn.bind(make_score_map_test, ind=input_ticker, t=slider)
 ind_desc_sidebar = pn.bind(get_ind_text, ind=input_ticker)
-indepth_dboard = pn.bind(make_indepth_dboard, ind=input_ticker)
+indepth_dboard = pn.bind(make_indepth_dboard, ind=input_ticker, temps=temp_box)
 
 tabs = pn.Tabs(
     (
@@ -420,7 +425,7 @@ tabs = pn.Tabs(
     ),
     (
         "Indicator In Depth",
-        pn.Column(pn.Row(input_ticker, ind_desc_sidebar), indepth_dboard),
+        pn.Column(pn.Row(input_ticker, temp_box, ind_desc_sidebar), indepth_dboard),
     ),
     ("Scenario", pn.Column(pn.Row(slider))),
 )
