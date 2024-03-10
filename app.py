@@ -290,6 +290,87 @@ def make_score_map_test(ind, t):
     return layout
 
 
+def make_indepth_dboard(ind):
+    ds = make_ds_combined(ind)
+    ind_info = get_plot_info(ind)
+    indepth_col = pn.Column()
+    for temp in ds.threshold:
+        score_map = (
+            ds["score"]
+            .sel(threshold=temp)
+            .hvplot(
+                x="Longitude",
+                y="Latitude",
+                xlabel="",
+                ylabel="",
+                # xticks=[-180],
+                width=600,
+                cmap="magma_r",
+                clim=(0, 6),
+                title=ds.attrs["long_name"]
+                + " risk score at "
+                # + str(temp)
+                + "°C (Data: Werning et al. 2023)",
+            )
+            .hist()
+        )
+        abs_map = (
+            ds["abs"]
+            .sel(threshold=temp)
+            .hvplot(
+                x="Longitude",
+                y="Latitude",
+                xlabel="",
+                ylabel="",
+                width=600,
+                cmap=ind_info["ind_cmap"],
+                clim=(ind_info["ind_min"], ind_info["ind_max"]),
+                title=ds.attrs["long_name"]
+                + " absolute values at "
+                # + str(temp)
+                + "°C (Data: Werning et al. 2023)",
+            )
+            .hist()
+        )
+        diff_map = (
+            ds["difference"]
+            .sel(
+                threshold=temp,
+                # stats="mean"
+            )
+            .hvplot(
+                x="Longitude",
+                y="Latitude",
+                xlabel="",
+                ylabel="",
+                cmap=ind_info["diff_cmap"],
+                clim=(ind_info["diff_min"], ind_info["diff_max"]),
+                width=600,
+                title=ds.attrs["long_name"]
+                + " difference at "
+                # + str(temp)
+                + "°C (Data: Werning et al. 2023)",
+            )
+            .hist()
+        )
+        temp_row = pn.Column(
+            pn.layout.Divider(),
+            pn.Row(
+                abs_map,
+                diff_map,
+                score_map,
+                # styles={"background": "#f0f3f6"},
+                sizing_mode="stretch_width",
+                styles={
+                    "background": "#f0f3f6",
+                    "padding": "0px",
+                },
+            ),
+        )
+        indepth_col.append(temp_row)
+    return indepth_col
+
+
 slider_style = {
     "background": "#f0f3f6",
     "padding": "10px",
@@ -330,14 +411,18 @@ data_short = '<span style="color:black; font-weight:400; font-size:16px">Data: <
 # ind_unit = ind_info["unit"]
 simple_map_test = pn.bind(make_score_map_test, ind=input_ticker, t=slider)
 ind_desc_sidebar = pn.bind(get_ind_text, ind=input_ticker)
+indepth_dboard = pn.bind(make_indepth_dboard, ind=input_ticker)
 
 tabs = pn.Tabs(
     (
         "Single Indicator Overview",
         pn.Column(pn.Row(input_ticker, slider, ind_desc_sidebar), simple_map_test),
     ),
-    ("Indicator In Depth", pn.panel("In depth visualisations of the indicator")),
-    ("Scenario", pn.panel("Scenario analysis")),
+    (
+        "Indicator In Depth",
+        pn.Column(pn.Row(input_ticker, ind_desc_sidebar), indepth_dboard),
+    ),
+    ("Scenario", pn.Column(pn.Row(slider))),
 )
 
 template = pn.template.FastListTemplate(
