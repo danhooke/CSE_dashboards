@@ -291,7 +291,9 @@ def make_score_map_test(ind, t):
 
 
 temp_box = pnw.MultiChoice(
-    name="Temperatures", value=[1.2], options=[1.2, 1.5, 2.0, 2.5, 3.0, 3.5]
+    name="Temperatures (select multiple):",
+    value=[1.2],
+    options=[1.2, 1.5, 2.0, 2.5, 3.0, 3.5],
 )
 
 
