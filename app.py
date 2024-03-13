@@ -471,12 +471,12 @@ tabs = pn.Tabs(
         "Indicator In Depth",
         pn.Column(pn.Row(input_ticker, temp_box, ind_desc_sidebar), indepth_dboard),
     ),
-    (
-        "Scenario",
-        pn.Column(
-            pn.Row(slider),
-        ),
-    ),  # scenario_dboard
+    # (
+    #     "Scenario",
+    #     pn.Column(
+    #         pn.Row(slider),
+    #     ),
+    # ),  # scenario_dboard
     dynamic=True,
 )
 
