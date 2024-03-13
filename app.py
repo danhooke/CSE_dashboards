@@ -171,6 +171,21 @@ def make_ds_combined(l_name):
     return ds
 
 
+def get_scenario(temp):
+    temp_ds = xr.Dataset()
+    for file in glob.glob("data/*"):
+        ds = xr.open_dataset(file)
+        if temp in ds.threshold.values:
+            ds = ds.sel(threshold=temp)
+            temp_ds = xr.merge(
+                [temp_ds, ds["score"].rename(ds.attrs["short_name"])], compat="override"
+            )
+            ds.close()
+        else:
+            ds.close()
+    return temp_ds
+
+
 info = dfs.get_info()
 
 
@@ -379,6 +394,31 @@ def make_indepth_dboard(ind, temps):
     return indepth_col
 
 
+def make_scenario_dboard(temp):
+    ds = get_scenario(temp)
+    scenario_col = pn.Column()
+    for var in ds.data_vars:
+        var_map = (
+            ds[var]
+            .hvplot(
+                x="Longitude",
+                y="Latitude",
+                xlabel="",
+                ylabel="",
+                width=600,
+                cmap="magma_r",
+                clim=(0, 6),
+                title=var
+                + " risk score at "
+                + str(temp)
+                + "°C (Data: Werning et al. 2023)",
+            )
+            .hist()
+        )
+        scenario_col.append(var_map)
+    return scenario_col
+
+
 slider_style = {
     "background": "#f0f3f6",
     "padding": "10px",
@@ -420,6 +460,7 @@ data_short = '<span style="color:black; font-weight:400; font-size:16px">Data: <
 simple_map_test = pn.bind(make_score_map_test, ind=input_ticker, t=slider)
 ind_desc_sidebar = pn.bind(get_ind_text, ind=input_ticker)
 indepth_dboard = pn.bind(make_indepth_dboard, ind=input_ticker, temps=temp_box)
+scenario_dboard = pn.bind(make_scenario_dboard, temp=slider)
 
 tabs = pn.Tabs(
     (
@@ -430,7 +471,13 @@ tabs = pn.Tabs(
         "Indicator In Depth",
         pn.Column(pn.Row(input_ticker, temp_box, ind_desc_sidebar), indepth_dboard),
     ),
-    ("Scenario", pn.Column(pn.Row(slider))),
+    (
+        "Scenario",
+        pn.Column(
+            pn.Row(slider),
+        ),
+    ),  # scenario_dboard
+    dynamic=True,
 )
 
 template = pn.template.FastListTemplate(
